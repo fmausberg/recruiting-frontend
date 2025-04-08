@@ -32,7 +32,7 @@ export default function LoginPage() {
         login(token);
 
         // Redirect to the user home page
-        router.push("/home/user");
+        router.push("/user");
       } else {
         setErrorMessage("Login failed");
       }
