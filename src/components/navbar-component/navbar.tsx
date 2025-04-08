@@ -31,21 +31,29 @@ const Navbar = () => {
               <a href="/home" className="hover:text-navbar-hover text-navbar-text">
                 Home
               </a>
-              <a href="/questions" className="hover:text-navbar-hover text-navbar-text">
-                Questions
-              </a>
-              <a href="/score" className="hover:text-navbar-hover text-navbar-text">
-                Your Score
-              </a>
-              {isLoggedIn && (
-                <a
-                  href="/home/user"
-                  className={`hover:text-navbar-hover text-navbar-text ${
-                    loading ? "opacity-50 pointer-events-none" : ""
-                  }`}
-                >
-                  Profile
-                </a>
+              {!loading && isLoggedIn && (
+                <>
+                  <a
+                    href="/questions"
+                    className="hover:text-navbar-hover text-navbar-text"
+                  >
+                    Questions
+                  </a>
+                  <a
+                    href="/score"
+                    className="hover:text-navbar-hover text-navbar-text"
+                  >
+                    Your Score
+                  </a>
+                  <a
+                    href="/user"
+                    className={`hover:text-navbar-hover text-navbar-text ${
+                      loading ? "opacity-50 pointer-events-none" : ""
+                    }`}
+                  >
+                    Profile
+                  </a>
+                </>
               )}
             </div>
           </div>

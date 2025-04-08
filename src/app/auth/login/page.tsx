@@ -28,11 +28,8 @@ export default function LoginPage() {
         const data = await response.json();
         const token = data.jwttoken;
 
-        // Store the token in localStorage
-        localStorage.setItem("jwttoken", token);
-
-        // Call the login function from AuthContext
-        login();
+        // Store the token in cookies using the login function from AuthContext
+        login(token);
 
         // Redirect to the user home page
         router.push("/home/user");
