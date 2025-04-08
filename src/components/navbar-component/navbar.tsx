@@ -14,17 +14,16 @@ const Navbar = () => {
     window.location.href = "/auth/login";
   };
 
-  if (loading) {
-    // Show nothing or a loading spinner while determining authentication state
-    return null;
-  }
-
   return (
-    <nav className="bg-navbar-background shadow-lg">
+    <nav
+      className={`bg-navbar-background shadow-lg ${
+        loading ? "opacity-50 pointer-events-none" : ""
+      }`}
+    >
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-12 items-center h-16">
           <div className="col-span-1 md:col-span-3">
-            <span className="text-xl font-bold text-navbar-text">Logo</span>
+            <span className="text-xl font-bold text-navbar-text">Hello</span>
           </div>
 
           <div className="hidden md:block md:col-span-6">
@@ -32,18 +31,20 @@ const Navbar = () => {
               <a href="/home" className="hover:text-navbar-hover text-navbar-text">
                 Home
               </a>
-              <a href="#" className="hover:text-navbar-hover text-navbar-text">
-                About
+              <a href="/questions" className="hover:text-navbar-hover text-navbar-text">
+                Questions
               </a>
-              <a href="#" className="hover:text-navbar-hover text-navbar-text">
-                Services
-              </a>
-              <a href="#" className="hover:text-navbar-hover text-navbar-text">
-                Contact
+              <a href="/score" className="hover:text-navbar-hover text-navbar-text">
+                Your Score
               </a>
               {isLoggedIn && (
-                <a href="/home/user" className="hover:text-navbar-hover text-navbar-text">
-                  User
+                <a
+                  href="/home/user"
+                  className={`hover:text-navbar-hover text-navbar-text ${
+                    loading ? "opacity-50 pointer-events-none" : ""
+                  }`}
+                >
+                  Profile
                 </a>
               )}
             </div>

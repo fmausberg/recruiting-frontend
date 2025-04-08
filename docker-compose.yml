@@ -4,12 +4,12 @@ services:
   frontend:
     build:
       context: .
-    container_name: authframework-frontend
+    container_name: recruiting-frontend
     networks:
-      - authframework
+      - recruiting
     ports:
       - "3000:3000"
 
 networks:
-  authframework:
+  recruiting:
     external: true

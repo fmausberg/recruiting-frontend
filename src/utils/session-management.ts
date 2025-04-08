@@ -1,4 +1,4 @@
-// Setzt einen Cookie mit einem bestimmten Namen, Wert und optionalen Optionen
+/* // Setzt einen Cookie mit einem bestimmten Namen, Wert und optionalen Optionen
 export function setCookie(name: string, value: string, days: number = 7) {
   const date = new Date();
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
@@ -18,5 +18,5 @@ export function getCookie(name: string): string | null {
 export function deleteCookie(name: string) {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
 }
-
+*/
 

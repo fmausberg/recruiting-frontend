@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
-import { getCookie } from "../../../utils/session-management";
 
-// Helper function to fetch with JWT token
+import { useState, useEffect } from "react";
+import { useAuth } from "../../../context/AuthContext";
+
 const fetchWithToken = async (url: string, options: RequestInit = {}) => {
   const token = getCookie("jwttoken");
   const headers = {
@@ -15,6 +15,7 @@ const fetchWithToken = async (url: string, options: RequestInit = {}) => {
 };
 
 export default function UserPage() {
+  const { isLoggedIn, loading } = useAuth();
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
@@ -22,6 +23,8 @@ export default function UserPage() {
   });
 
   useEffect(() => {
+    if (!isLoggedIn || loading) return;
+
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const fetchUserData = async () => {
       try {
@@ -29,7 +32,6 @@ export default function UserPage() {
         if (response.ok) {
           const data = await response.json();
           setUserData(data);
-          console.log(data);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -37,33 +39,15 @@ export default function UserPage() {
     };
 
     fetchUserData();
-  }, []);
+  }, [isLoggedIn, loading]);
 
-  /*const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetchWithToken("/updateme", {
-        method: "POST",
-        body: JSON.stringify(userData),
-      });
-
-      if (response.ok) {
-        console.log("User data updated successfully");
-      } else {
-        console.error("Failed to update user data");
-      }
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    }
-  };*/
+  if (!isLoggedIn) {
+    return <p>You are not logged in.</p>;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
@@ -71,7 +55,7 @@ export default function UserPage() {
         <h1 className="text-2xl font-bold text-center mb-8 text-textPrimary">
           Benutzerübersicht
         </h1>
-        <form /*onSubmit=</div>{handleSubmit}*/ className="space-y-4">
+        <form className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-textPrimary mb-1">
               Vorname:
@@ -80,8 +64,8 @@ export default function UserPage() {
               type="text"
               name="firstName"
               value={userData.firstName}
-              /*onChange={handleInputChange}*/
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-formsDesigns-focus border-slate-300"
+              readOnly
             />
           </div>
           <div>
@@ -92,8 +76,8 @@ export default function UserPage() {
               type="text"
               name="lastName"
               value={userData.lastName}
-              /*onChange={handleInputChange}*/
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-formsDesigns-focus border-slate-300"
+              readOnly
             />
           </div>
           <div>
@@ -104,18 +88,20 @@ export default function UserPage() {
               type="email"
               name="mail"
               value={userData.mail}
-              /*onChange={handleInputChange}*/
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-formsDesigns-focus border-slate-300"
+              readOnly
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-primaryButton text-primaryButton-text py-2 px-4 rounded-md hover:bg-primaryButton-hover focus:outline-none focus:ring-2 focus:ring-formsDesigns-focus focus:ring-offset-2 transition-colors duration-300"
-          >
-            Speichern
-          </button>
         </form>
       </div>
     </div>
   );
 }
+
+// Helper function to get cookies
+const getCookie = (name: string): string | null => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
+  return null;
+};
