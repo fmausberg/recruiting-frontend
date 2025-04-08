@@ -29,7 +29,7 @@ const Navbar = () => {
           <div className="hidden md:block md:col-span-6">
             <div className="grid grid-cols-5 gap-4 justify-items-center">
               <a href="/home" className="hover:text-navbar-hover text-navbar-text">
-                Home
+                Recruitingtests
               </a>
               {!loading && isLoggedIn && (
                 <>
